@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -40,6 +41,8 @@ INSTALLED_APPS = [
     # 3rd party
     "crispy_forms",
     "crispy_bootstrap5",
+    "ckeditor",
+    "ckeditor_uploader",
     # LOCAL
     "accounts.apps.AccountsConfig",
     "articles.apps.ArticlesConfig",
@@ -126,7 +129,12 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
 STATIC_URL = "/static/"
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 STATICFILES_DIRS = [BASE_DIR / "static"]
+
+MEDIA_URL = "/media/"
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+CKEDITOR_UPLOAD_PATH = "uploads/"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
@@ -140,3 +148,72 @@ LOGOUT_REDIRECT_URL = "homepage"
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 CRISPY_TEMPLATE_PACK = "bootstrap5"
+CKEDITOR_CONFIGS = {
+    "default": {
+        "toolbar": "Custom",
+        "extraPlugins": "youtube",
+        "removePlugins": "stylesheetparser",
+        "extraAllowedContent": "iframe[*]",
+        "toolbar_Custom": [
+            [
+                "Bold",
+                "Italic",
+                "Underline",
+            ],
+            [
+                "NumberedList",
+                "BulletedList",
+                "-",
+                "Outdent",
+                "Indent",
+                "-",
+                "JustifyLeft",
+                "JustifyCenter",
+                "JustifyRight",
+                "JustifyBlock",
+            ],
+            [
+                "Link",
+                "Unlink",
+            ],
+            [
+                "Image",
+                "Table",
+                "Youtube",
+            ],
+            [
+                "Font",
+                "FontSize",
+            ],
+            [
+                "RemoveFormat",
+                "Source",
+            ],
+            [
+                "Preview",
+                "Maximize",
+            ],
+        ],
+    }
+}
+
+"""
+CKEDITOR_CONFIGS = {
+    "default": {
+        "toolbar": "custom",
+        "toolbar_custom": [
+            ["Format", "Styles", "FontSize"],
+            ["Bold", "Italic", "Underline"],
+            ["NumberedList", "BulletedList"],
+            ["Link", "Unlink"],
+            ["JustifyLeft", "JustifyCenter", "JustifyRight", "JustifyBlock"],
+            ["Undo", "Redo"],
+            ["Outdent", "Indent"],
+            ["Table", "Image", "Youtube"],
+        ],
+        "extraPlugins": "youtube",
+        "removePlugins": "stylesheetparser",
+        "allowedContent": "iframe[*]",
+    }
+}
+"""
