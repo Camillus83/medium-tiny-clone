@@ -27,7 +27,7 @@ class Article(models.Model):
     author = models.ForeignKey(Author, on_delete=models.CASCADE)
     date_posted = models.DateTimeField(auto_now_add=True)
     tags = models.ManyToManyField(Tag, blank=True)
-    thumbnail = models.FileField(blank=True, null=True)
+    thumbnail = models.FileField(blank=True, null=True, default="default.png")
 
     def __str__(self):
         return self.title
