@@ -1,10 +1,9 @@
 {% extends '_base.html' %}
 
-{% block title %}Home{% endblock title %}
+{% block title %}Detail{% endblock title %}
 
 {% block content %}
 <br>
-{% for article in object_list %}
 <div class="container px-4 px-md-6">
     <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
         <div class="col-md-6 col-lg-8 col-xl-7">
@@ -31,7 +30,6 @@
         </div>
     </div>
 </div>
-
+{{article.content|safe}}
 <br>
-{% endfor %}
 {% endblock content %}

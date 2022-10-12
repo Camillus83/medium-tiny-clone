@@ -2,6 +2,9 @@ from django.db import models
 from django.contrib.auth import get_user_model
 from ckeditor.fields import RichTextField
 from ckeditor_uploader.fields import RichTextUploadingField
+from django.urls import reverse
+import uuid
+
 
 User = get_user_model()
 
@@ -21,16 +24,20 @@ class Tag(models.Model):
 
 
 class Article(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     title = models.CharField(max_length=200)
     short_description = models.CharField(max_length=500)
     content = RichTextUploadingField(config_name="default")
     author = models.ForeignKey(Author, on_delete=models.CASCADE)
     date_posted = models.DateTimeField(auto_now_add=True)
     tags = models.ManyToManyField(Tag, blank=True)
-    thumbnail = models.FileField(blank=True, null=True, default="default.png")
+    thumbnail = models.FileField(blank=True, null=True, default="default_thumbnail.png")
 
     def __str__(self):
         return self.title
+
+    def get_absolute_url(self):
+        return reverse("article_detail", args=[str(self.id)])
 
 
 class Article_Images(models.Model):
