@@ -1,0 +1,12 @@
+.container {
+    margin-right: auto;
+    margin-left: auto;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.article-image {
+    width: 150px;
+    max-width: 150px;
+
+}

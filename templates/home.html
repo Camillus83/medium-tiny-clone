@@ -3,5 +3,35 @@
 {% block title %}Home{% endblock title %}
 
 {% block content %}
-<h1>Hello World!</h1>
+<br>
+{% for article in object_list %}
+<div class="container px-4 px-md-6">
+    <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+        <div class="col-md-6 col-lg-8 col-xl-7">
+            <!-- Post preview-->
+            <div class="article-preview">
+                <a href="post.html">
+                    <h2 class="article-title">{{article.title}}</h2>
+                </a>
+                <h3 class="article-short_description">{{article.short_description}}</h3>
+                <p class="article-meta">
+                    Posted by
+                    <a href="#!">{{article.author}}</a>
+                    on {{article.date_posted}}
+                </p>
+                <p class="article-tags">
+                    Tags: {% for tag in article.tags.all %} {{tag}} {% endfor %}
+                </p>
+            </div>
+        </div>
+        <div class="article-image">
+            <div class="col-auto d-none d-lg-block justify-content-left" width="250">
+                <img src="{{ article.thumbnail.url }}" width="250" height="250">
+            </div>
+        </div>
+    </div>
+</div>
+
+<br>
+{% endfor %}
 {% endblock content %}
