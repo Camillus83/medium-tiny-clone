@@ -33,6 +33,11 @@ class Article(models.Model):
     tags = models.ManyToManyField(Tag, blank=True)
     thumbnail = models.FileField(blank=True, null=True, default="default_thumbnail.png")
 
+    class Meta:
+        ordering = [
+            "-date_posted",
+        ]
+
     def __str__(self):
         return self.title
 
@@ -40,12 +45,12 @@ class Article(models.Model):
         return reverse("article_detail", args=[str(self.id)])
 
 
-class Article_Images(models.Model):
-    article = models.ForeignKey(Article, on_delete=models.CASCADE)
-    image = models.FileField(upload_to="static/images/")
+# class Article_Images(models.Model):
+#     article = models.ForeignKey(Article, on_delete=models.CASCADE)
+#     image = models.FileField(upload_to="static/images/")
 
-    def __str__(self):
-        return self.article.title
+#     def __str__(self):
+#         return self.article.title
 
 
 class Comment(models.Model):

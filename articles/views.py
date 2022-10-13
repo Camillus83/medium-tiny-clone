@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.views.generic import DetailView, ListView
-from .models import Author, Article, Tag, Article_Images, Comment
+from .models import Author, Article, Tag, Comment
 
 
 class HomePageView(ListView):
