@@ -1,7 +1,7 @@
 from django.urls import path
-from .views import HomePageView, ArticleDetailView
+from .views import HomePageView, article_detail_view
 
 urlpatterns = [
     path("", HomePageView.as_view(), name="homepage"),
-    path("<uuid:pk>", ArticleDetailView.as_view(), name="article_detail"),
+    path("article/<uuid:pk>", article_detail_view, name="article_detail"),
 ]
