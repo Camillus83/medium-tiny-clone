@@ -30,10 +30,34 @@
                 <h4>Comment Section</h4>
             </b>
         </div>
+
     </div>
+    {% for comment in article.comments.all %}
     <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
-        Comments: {% for comment in article.comments.all %} {{comment.content}} {% endfor %}
+
+        <div class="comment">
+            <div class='comment-header'>
+                Posted by <a href="#!">{{article.author}}</a> on {{article.date_posted}}
+            </div>
+            <div class="comment-content">
+                <p>{{comment.content}}</p>
+            </div>
+        </div>
+        <hr>
     </div>
+    {% endfor %}
+
+    {% if user.is_authenticated %}
+    <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+        <form method="GET">
+            <textarea rows="5" cols="100" name="comment-content" placeholder="Leave your thougts about this article..."
+                class="text-center">Leave your thoughts about this article....</textarea>
+            <br>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+
+    </div>
+    {% endif %}
 
 </div>
 {% endblock content %}
