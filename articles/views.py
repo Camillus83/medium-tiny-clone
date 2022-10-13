@@ -6,6 +6,7 @@ from .models import Author, Article, Tag, Comment
 class HomePageView(ListView):
     model = Article
     template_name = "home.html"
+    paginate_by = 5
 
 
 class ArticleDetailView(DetailView):
