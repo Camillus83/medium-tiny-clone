@@ -24,8 +24,8 @@ class Tag(models.Model):
 
 class Article(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    title = models.CharField(max_length=200)
-    short_description = models.CharField(max_length=500)
+    title = models.CharField(max_length=60)
+    short_description = models.CharField(max_length=180)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     date_posted = models.DateTimeField(auto_now_add=True)
     tags = models.ManyToManyField(Tag, blank=True)
