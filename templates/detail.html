@@ -55,8 +55,8 @@
             <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
                 <div class="col col-centered">
                     <br>
-                    <form method="GET">
-
+                    <form method="POST">
+                        {% csrf_token %}
                         <textarea rows="5" cols="100" name="comment-content"
                             placeholder="Leave your thougts about this article..." class="text-center"
                             required></textarea>

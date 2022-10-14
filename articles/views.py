@@ -21,8 +21,8 @@ def article_detail_view(request, pk):
     context = {}
     article = Article.objects.get(pk=pk)
     context["article"] = article
-    if request.GET:
-        comment_content = request.GET["comment-content"]
+    if request.POST:
+        comment_content = request.POST["comment-content"]
         comment = Comment.objects.create(
             article=article, author=request.user, content=comment_content
         )
