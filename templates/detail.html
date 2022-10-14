@@ -6,22 +6,26 @@
 <br>
 <div class="container px-4 px-md-6">
     <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
-        <div class="article-date-author-info">
-            Posted by
-            <a href="">{{article.author}}</a>
-            on {{article.date_posted}}
-        </div>
-        <hr>
-        <div class="article-detail-title">
-            <h2 class="article-detail-title"><b>{{article.title}}</b></h2>
-            <h3 class="article-detail-short_description">{{article.short_description}}</h3>
-            <hr>
-            <p>
-                {{article.content|safe}}
-            </p>
+        <div class="col col-centered">
+            <div class="article-date-author-info">
+                Posted by
+                <a href="">{{article.author}}</a>
+                on {{article.date_posted}}
+            </div>
+            <div class="article-detail-title">
+                <h2 class="article-detail-title"><b>{{article.title}}</b></h2>
+                <h3 class="article-detail-short_description">{{article.short_description}}</h3>
+                <hr>
+            </div>
+            <div class="article-content">
+                <p>
+                    {{article.content|safe}}
+                </p>
+            </div>
         </div>
     </div>
 </div>
+
 <hr>
 
 <div class="container px-4 px-md-6">
