@@ -30,7 +30,8 @@ textarea {
 }
 
 .comment-header,
-.article-date-author-info {
+.article-date-author-info,
+.tag-date {
     color: lightslategrey;
     font-size: 85%;
 }
@@ -41,4 +42,13 @@ textarea {
 
 .comment-section-header {
     font-size: 120%;
+}
+
+.tag-info {
+    display: flex;
+    justify-content: space-between;
+}
+
+.tag-name {
+    font-weight: bold;
 }

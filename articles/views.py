@@ -11,6 +11,12 @@ class HomePageView(ListView):
     paginate_by = 5
 
 
+class TagsListView(ListView):
+    model = Tag
+    template_name = "tags.html"
+    paginate_by = 5
+
+
 def article_detail_view(request, pk):
     context = {}
     article = Article.objects.get(pk=pk)
