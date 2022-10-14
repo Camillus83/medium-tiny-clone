@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.views.generic import ListView
-from .models import Author, Article, Tag, Comment
+from .models import Article, Tag, Comment
 from django.urls import reverse_lazy
 from django.http import HttpResponseRedirect
 

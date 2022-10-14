@@ -1,6 +1,6 @@
 from django.test import TestCase
 from django.contrib.auth import get_user_model
-from .models import Article, Author, Tag
+from .models import Article, Tag
 from django.urls import reverse
 
 
@@ -19,7 +19,7 @@ class ArticleTest(TestCase):
 
         cls.tag_2 = Tag.objects.create(tag_name="SecondTag")
 
-        cls.author = Author.objects.create(user=cls.user)
+        # cls.author = Author.objects.create(user=cls.user)
 
         cls.article = Article.objects.create(
             title="Dogs Article",
