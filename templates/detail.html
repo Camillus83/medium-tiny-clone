@@ -10,7 +10,7 @@
             <div class="article-date-author-info">
                 Posted by
                 <a href="">{{article.author}}</a>
-                on {{article.date_posted}}
+                on {{article.date_posted|date:"D, d M, Y, H:i"}}
             </div>
             <div class="article-detail-title">
                 <h2 class="article-detail-title"><b>{{article.title}}</b></h2>
@@ -40,7 +40,7 @@
                 <div class="comment">
 
                     <div class='comment-header'>
-                        Posted by <a href="#!">{{comment.author}}</a> on {{comment.date_posted}}
+                        Posted by <a href="#!">{{comment.author}}</a> on {{comment.date_posted|date:"D, d M, Y, H:i"}}
                     </div>
 
                     <div class="comment-content">

@@ -16,7 +16,7 @@
                 <p class="article-meta">
                     Posted by
                     <a href="">{{article.author}}</a>
-                    on {{article.date_posted}}
+                    on {{article.date_posted|date:"D, d M, Y, H:i"}}
                 </p>
                 <p class="article-tags">
                     Tags: {% for tag in article.tags.all %} {{tag}} | {% endfor %}
