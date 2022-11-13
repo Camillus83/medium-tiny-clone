@@ -30,3 +30,11 @@ def article_detail_view(request, pk):
         return HttpResponseRedirect(reverse_lazy("article_detail", kwargs={"pk": pk}))
 
     return render(request, "detail.html", context)
+
+def new_homepage_view(request):
+    context = {}
+    articles = Article.objects.all()[:5]
+    recent_tags = Tag.objects.all()[:5]
+    context['articles'] = articles
+    context['recent_tags'] = recent_tags
+    return render(request, 'newhomepage.html', context)
