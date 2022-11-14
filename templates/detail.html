@@ -4,40 +4,51 @@
 
 {% block content %}
 <br>
-<div class="container px-4 px-md-6">
-    <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
-        <div class="col col-centered">
-            <div class="article-date-author-info">
-                Posted by
-                <a href="">{{article.author}}</a>
-                on {{article.date_posted|date:"D, d M, Y, H:i"}}
-            </div>
-            <div class="article-detail-title">
-                <h2 class="article-detail-title"><b>{{article.title}}</b></h2>
-                <h3 class="article-detail-short_description">{{article.short_description}}</h3>
-                <hr>
-            </div>
-            <div class="article-content">
-                <p>
-                    {{article.content|safe}}
-                </p>
+<div class="row ml-4 rounded">
+    <div class="col-11 ml-4 rounded" style="background-color: #ffffff">
+        <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+            <div class="col col-centered">
+                <div class="article-date-author-info">
+                    Posted by
+                    <a href="">{{article.author}}</a>
+                    on {{article.date_posted|date:"D, d M, Y, H:i"}}
+                </div>
+                <div class="article-detail-title text-center">
+                    <h2 class="article-detail-title"><b>{{article.title}}</b></h2>
+                    <h3 class="article-detail-short_description">{{article.short_description}}</h3>
+                    <hr>
+                </div>
+                <div class="article-content">
+                    <p>
+                        {{article.content|safe}}
+                    </p>
+                </div>
             </div>
         </div>
     </div>
+    
+   
+  
+
+
+
 </div>
 
-<hr>
 
-<div class="container px-4 px-md-6">
-    <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
-        <div class="col-lg">
+
+<div class="row ml-5 mt-4 rounded border d-flex nowrap" style="background-color: #ffffff">
+<div class="col-11 mt-4 justify-content-center">
+    <div class="row">
+        <div class="col-12">
             <div class="comment-section-header"><b>
                     <h4>Comment Section</h4>
                 </b>
             </div>
+        </div>
+        </div>
             {% for comment in article.comments.all %}
-            <div class="comment-row">
-                <div class="comment">
+            <div class="d-flex flex-row">
+                <div class="col-12">
 
                     <div class='comment-header'>
                         Posted by <a href="#!">{{comment.author}}</a> on {{comment.date_posted|date:"D, d M, Y, H:i"}}
@@ -46,14 +57,15 @@
                     <div class="comment-content">
                         <p>{{comment.content}}</p>
                     </div>
+
+                    <hr>
                 </div>
-                <hr>
             </div>
             {% endfor %}
-
+            <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm">
             {% if user.is_authenticated %}
-            <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
-                <div class="col col-centered">
+            
+                <div class="col-12">
                     <br>
                     <form method="POST">
                         {% csrf_token %}
@@ -68,13 +80,15 @@
                         <br>
                     </form>
                 </div>
-            </div>
+            
             {% else %}
-            <div class="col col-centered">Please Sign up or Login to add comments.</div>
+            <div class="col-12"><p>Please Sign up or Login to add comments.</p>p</div>
             {% endif %}
         </div>
+        </div>
     </div>
-</div>
+
+
 
 
 {% endblock content %}

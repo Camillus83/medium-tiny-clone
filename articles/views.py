@@ -1,8 +1,11 @@
-from django.shortcuts import render
-from django.views.generic import ListView
-from .models import Article, Tag, Comment
-from django.urls import reverse_lazy
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
+from django.shortcuts import render
+from django.urls import reverse_lazy, reverse
+from django.views.generic import ListView, CreateView
+
+from .models import Article, Comment, Tag
+from .forms import ArticleForm
 
 
 class HomePageView(ListView):
@@ -37,4 +40,19 @@ def new_homepage_view(request):
     recent_tags = Tag.objects.all()[:5]
     context['articles'] = articles
     context['recent_tags'] = recent_tags
-    return render(request, 'newhomepage.html', context)
+    return render(request, 'homepage.html', context)
+
+@login_required
+def my_articles_view(request):
+    context = {}
+    articles = Article.objects.filter(author=request.user)
+    context['articles'] = articles
+    return render(request, 'myarticles.html', context)
+    
+class ArticleCreateView(CreateView):
+    form_class = ArticleForm
+    model = Article
+    template_name = 'create_article.html'
+
+    def get_success_url(self):
+        return reverse('homepage')

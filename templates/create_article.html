@@ -1,0 +1,21 @@
+{% extends '_base.html' %}
+
+{% block title %}Home{% endblock title %}
+
+{% block content %}
+<div class="col-10">
+    <form method="post" enctype="multipart/form-data"> 
+        {% csrf_token %} 
+        {{ form.media}}
+        {% for field in form %}
+        <div class="form-group">
+            <div><label for="{{ field.id_for_label }}" class="text-dark">{{ field.label }}: </label></div>
+            {{ field }}
+        </div>
+        {% endfor %}
+        <div class="row justify-content-center">
+            <input type="submit" class="btn btn-info btn-lg" value="Create"/>
+        </div>
+    </form>
+</div>
+{% endblock content %}
