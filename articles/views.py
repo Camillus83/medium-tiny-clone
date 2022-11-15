@@ -3,8 +3,9 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse_lazy, reverse
 from django.views.generic import ListView, CreateView
+from django.contrib.auth.mixins import LoginRequiredMixin
 
-from .models import Article, Comment
+from .models import Article, Comment, Note
 from .forms import ArticleForm
 
 
@@ -19,6 +20,17 @@ class HomePageView(ListView):
 #     template_name = "tags.html"
 #     paginate_by = 5
 
+class NoteListView(ListView, LoginRequiredMixin):
+    model = Note
+    template_name = 'notelist.html'
+    paginate_by = 5
+    login_url = "account_login"
+    
+    def get_queryset(self):
+        user = self.request.user
+        queryset = Note.objects.filter(author=user)
+        return queryset
+
 
 def article_detail_view(request, slug, author):
     context = {}
@@ -30,7 +42,7 @@ def article_detail_view(request, slug, author):
             article=article, author=request.user, content=comment_content
         )
         comment.save()
-        return HttpResponseRedirect(reverse_lazy("article_detail", kwargs={"slug": slug}))
+        return HttpResponseRedirect(reverse_lazy("article_detail", kwargs={"slug": slug, "author":request.user.username}))
 
     return render(request, "detail.html", context)
 

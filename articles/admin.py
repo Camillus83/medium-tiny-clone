@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Article, Comment
+from .models import Article, Comment, Note
 
 
 # class Article_ImagesInline(admin.TabularInline):
@@ -18,5 +18,5 @@ class CommentAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Article, ArticleAdmin)
-
+admin.site.register(Note)
 admin.site.register(Comment, CommentAdmin)

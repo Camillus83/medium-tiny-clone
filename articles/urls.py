@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import HomePageView, article_detail_view, new_homepage_view, my_articles_view, ArticleCreateView
+from .views import HomePageView, article_detail_view, new_homepage_view, my_articles_view, ArticleCreateView, NoteListView
 
 urlpatterns = [
     path('', new_homepage_view, name='homepage'),
@@ -7,5 +7,6 @@ urlpatterns = [
     # path("article/<slug:slug>", article_detail_view, name="article_detail"),
     path("@<str:author>/<slug:slug>", article_detail_view, name="article_detail"),
     path('my_articles', my_articles_view, name='my_articles'),
+    path('my_notes/', NoteListView.as_view(), name='my_notes'),
     # path("tags", TagsListView.as_view(), name="tags_page"),
 ]

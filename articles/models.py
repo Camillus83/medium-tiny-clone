@@ -64,10 +64,16 @@ class Comment(models.Model):
     def __str__(self):
         return self.content
 
-# class Note(models.Model):
-#     author = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
-#     content = models.TextField()
-#     article = models.ForeignKey(Article, on_delete=models.CASCADE, null=True, blank=True)
+class Note(models.Model):
+    author = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
+    title = models.CharField(max_length=60)
+    content = models.TextField()
+    note_created = models.DateTimeField(auto_now_add=True)
 
-#     def __str__(self):
-#         return self.content
+    def __str__(self):
+        return self.content
+
+    class Meta:
+        ordering = [
+            "-note_created",
+        ]
