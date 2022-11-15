@@ -36,7 +36,6 @@ class Article(models.Model):
     liked = models.ManyToManyField(User, default=None, blank=True, related_name='liked')
     favourite = models.ManyToManyField(User, default=None, blank=True, related_name='favourite')
     readlist = models.ManyToManyField(User, default=None, blank=True, related_name='readlist')
-    # slug = models.SlugField(null=False, unique=True)
     slug = AutoSlugField(unique=True, populate_from='title')
 
     class Meta:

@@ -9,17 +9,6 @@ from .models import Article, Comment, Note
 from .forms import ArticleForm
 
 
-class HomePageView(ListView):
-    model = Article
-    template_name = "home.html"
-    paginate_by = 5
-
-
-# class TagsListView(ListView):
-#     model = Tag
-#     template_name = "tags.html"
-#     paginate_by = 5
-
 class NoteListView(ListView, LoginRequiredMixin):
     model = Note
     template_name = 'notelist.html'
@@ -30,6 +19,18 @@ class NoteListView(ListView, LoginRequiredMixin):
     def get_queryset(self):
         user = self.request.user
         queryset = Note.objects.filter(author=user)
+        return queryset
+
+class FavouriteListView(ListView, LoginRequiredMixin):
+    model = Article
+    template_name = 'favourite_list.html'
+    paginate_by = 5
+    login_url = "account_login"
+    context_object_name = 'articles'
+    
+    def get_queryset(self):
+        user = self.request.user
+        queryset = Article.objects.filter(favourite=user)
         return queryset
 
 
@@ -86,4 +87,22 @@ def add_to_favourite_view(request, article_id):
         article.favourite.remove(request.user)
     else:
         article.favourite.add(request.user)
+    return HttpResponseRedirect(request.META['HTTP_REFERER'])
+
+@login_required
+def like_article(request, article_id):
+    article = get_object_or_404(Article, pk=article_id)
+    if article.liked.filter(pk=request.user.id).exists():
+        article.liked.remove(request.user)
+    else:
+        article.liked.add(request.user)
+    return HttpResponseRedirect(request.META['HTTP_REFERER'])
+
+@login_required
+def add_to_readlist(request, article_id):
+    article = get_object_or_404(Article, pk=article_id)
+    if article.readlist.filter(pk=request.user.id).exists():
+        article.readlist.remove(request.user)
+    else:
+        article.readlist.add(request.user)
     return HttpResponseRedirect(request.META['HTTP_REFERER'])
