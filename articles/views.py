@@ -1,6 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy, reverse
 from django.views.generic import ListView, CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -25,6 +25,7 @@ class NoteListView(ListView, LoginRequiredMixin):
     template_name = 'notelist.html'
     paginate_by = 5
     login_url = "account_login"
+    context_object_name = 'notes'
     
     def get_queryset(self):
         user = self.request.user
@@ -48,10 +49,12 @@ def article_detail_view(request, slug, author):
 
 def new_homepage_view(request):
     context = {}
+   
     articles = Article.objects.all()[:5]
     # recent_tags = Tag.objects.all()[:5]
     context['articles'] = articles
     # context['recent_tags'] = recent_tags
+
     return render(request, 'homepage.html', context)
 
 @login_required
@@ -75,3 +78,12 @@ class ArticleCreateView(CreateView):
 
     def get_success_url(self):
         return reverse('homepage')
+
+@login_required
+def add_to_favourite_view(request, article_id):
+    article = get_object_or_404(Article, pk=article_id)
+    if article.favourite.filter(pk=request.user.id).exists():
+        article.favourite.remove(request.user)
+    else:
+        article.favourite.add(request.user)
+    return HttpResponseRedirect(request.META['HTTP_REFERER'])

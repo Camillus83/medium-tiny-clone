@@ -6,7 +6,10 @@
 <br>
 <div class="row ml-4 rounded" style="width: 150vh">
    <div class="col-12">
-
+      {% for note in notes %} 
+      {{note.title}}
+      {{note.content}}
+      {% endfor %}
    </div>
 </div>
 {% endblock content %}

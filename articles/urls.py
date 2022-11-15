@@ -6,7 +6,7 @@ urlpatterns = [
     path('create-new-article/', ArticleCreateView.as_view(), name='create_article'),
     # path("article/<slug:slug>", article_detail_view, name="article_detail"),
     path("@<str:author>/<slug:slug>", article_detail_view, name="article_detail"),
-    path('my_articles', my_articles_view, name='my_articles'),
+    path('my_articles/', my_articles_view, name='my_articles'),
     path('my_notes/', NoteListView.as_view(), name='my_notes'),
     # path("tags", TagsListView.as_view(), name="tags_page"),
 ]
