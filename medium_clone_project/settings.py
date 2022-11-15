@@ -43,6 +43,8 @@ INSTALLED_APPS = [
     "crispy_bootstrap5",
     "ckeditor",
     "ckeditor_uploader",
+    'taggit',
+    'django_extensions',
     # LOCAL
     "accounts.apps.AccountsConfig",
     "articles.apps.ArticlesConfig",

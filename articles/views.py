@@ -4,7 +4,7 @@ from django.shortcuts import render
 from django.urls import reverse_lazy, reverse
 from django.views.generic import ListView, CreateView
 
-from .models import Article, Comment, Tag
+from .models import Article, Comment
 from .forms import ArticleForm
 
 
@@ -14,15 +14,15 @@ class HomePageView(ListView):
     paginate_by = 5
 
 
-class TagsListView(ListView):
-    model = Tag
-    template_name = "tags.html"
-    paginate_by = 5
+# class TagsListView(ListView):
+#     model = Tag
+#     template_name = "tags.html"
+#     paginate_by = 5
 
 
-def article_detail_view(request, pk):
+def article_detail_view(request, slug, author):
     context = {}
-    article = Article.objects.get(pk=pk)
+    article = Article.objects.get(slug=slug)
     context["article"] = article
     if request.POST:
         comment_content = request.POST["comment-content"]
@@ -30,16 +30,16 @@ def article_detail_view(request, pk):
             article=article, author=request.user, content=comment_content
         )
         comment.save()
-        return HttpResponseRedirect(reverse_lazy("article_detail", kwargs={"pk": pk}))
+        return HttpResponseRedirect(reverse_lazy("article_detail", kwargs={"slug": slug}))
 
     return render(request, "detail.html", context)
 
 def new_homepage_view(request):
     context = {}
     articles = Article.objects.all()[:5]
-    recent_tags = Tag.objects.all()[:5]
+    # recent_tags = Tag.objects.all()[:5]
     context['articles'] = articles
-    context['recent_tags'] = recent_tags
+    # context['recent_tags'] = recent_tags
     return render(request, 'homepage.html', context)
 
 @login_required
@@ -53,6 +53,13 @@ class ArticleCreateView(CreateView):
     form_class = ArticleForm
     model = Article
     template_name = 'create_article.html'
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.author = self.request.user
+        self.object.save()
+        form.save()
+        return HttpResponseRedirect(self.get_success_url())
 
     def get_success_url(self):
         return reverse('homepage')
