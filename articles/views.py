@@ -6,7 +6,7 @@ from django.views.generic import ListView, CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 from .models import Article, Comment, Note
-from .forms import ArticleForm
+from .forms import ArticleForm, NoteForm
 
 
 class NoteListView(ListView, LoginRequiredMixin):
@@ -65,10 +65,27 @@ def my_articles_view(request):
     context['articles'] = articles
     return render(request, 'myarticles.html', context)
     
-class ArticleCreateView(CreateView):
+class ArticleCreateView(CreateView, LoginRequiredMixin):
     form_class = ArticleForm
     model = Article
     template_name = 'create_article.html'
+    login_url = "account_login"
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.author = self.request.user
+        self.object.save()
+        form.save()
+        return HttpResponseRedirect(self.get_success_url())
+
+    def get_success_url(self):
+        return reverse('homepage')
+
+class NoteCreateView(CreateView, LoginRequiredMixin):
+    form_class = NoteForm
+    model = Note
+    template_name = 'create_note.html'
+    login_url = "account_login"
 
     def form_valid(self, form):
         self.object = form.save(commit=False)

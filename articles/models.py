@@ -10,20 +10,6 @@ from django_extensions.db.fields import AutoSlugField
 
 User = get_user_model()
 
-
-# class Tag(models.Model):
-#     tag_name = models.CharField(max_length=50)
-#     date_posted = models.DateTimeField(auto_now_add=True)
-
-#     def __str__(self):
-#         return self.tag_name
-
-#     class Meta:
-#         ordering = [
-#             "-date_posted",
-#         ]
-
-
 class Article(models.Model):
     article_id = models.AutoField(primary_key=True)
     title = models.CharField(max_length=60)
