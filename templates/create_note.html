@@ -3,19 +3,25 @@
 {% block title %}Home{% endblock title %}
 
 {% block content %}
-<div class="col-10 ml-3 d-flex justify-content-center" style="background-color: #ffffff">
-    <form class="text-center mt-5"method="post" enctype="multipart/form-data"> 
-        {% csrf_token %} 
-        {{ form.media}}
-        {% for field in form %}
-        <div class="row col-md-3 mx-auto mb-3">
-            <div><label for="{{ field.id_for_label }}" class="text-dark">{{ field.label }}: </label></div>
-            {{ field }}
+<div class="col-12 ml-3">
+    <div class="row">
+        <div class="col-10 mx-auto">
+            <form method="post" enctype="multipart/form-data" class="p-3"> 
+                {% csrf_token %} 
+                {{ form.media}}
+                {% for field in form %}
+                <div class="form-group text-center shadow rounded m-3 p-4" style="background-color: #ffffff">
+                    <div><label for="{{ field.id_for_label }}" class="text-dark"><strong>{{ field.label }}</strong>: </label></div>
+                
+                    {{ field }}</div>
+                
+                {% endfor %}
+                <div class="row justify-content-center">
+                    <input type="submit" class="btn btn-info btn-lg" value="Create"/>
+                </div>
+            </form>
         </div>
-        {% endfor %}
-        <div class="row justify-content-center">
-            <input type="submit" class="btn btn-info btn-lg" value="Create"/>
-        </div>
-    </form>
+    </div>
 </div>
+
 {% endblock content %}

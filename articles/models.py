@@ -52,7 +52,7 @@ class Comment(models.Model):
 class Note(models.Model):
     author = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
     title = models.CharField(max_length=60)
-    content = models.TextField()
+    content = models.TextField(max_length=250)
     note_created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
