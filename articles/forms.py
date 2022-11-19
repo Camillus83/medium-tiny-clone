@@ -6,7 +6,7 @@ class ArticleForm(forms.ModelForm):
     content = forms.CharField(widget=CKEditorUploadingWidget(), label='Article Body')
     title = forms.CharField(widget=forms.TextInput(attrs={'size': 80, 'placeholder':'Article Title'}), label='Article Title', max_length=60, min_length=5)
     short_description = forms.CharField(widget=forms.Textarea(attrs={'cols': 80, 'row': 20, 'placeholder': 'Short Description'}), label='Short Description', max_length=160, min_length=5)
-    thumbnail = forms.FileField(widget=forms.FileInput(), label='Article Cover', required=False)
+    thumbnail = forms.FileField(widget=forms.FileInput(attrs={'accept': '.png'}), label='Article Cover', required=False)
 
     class Meta:
         model = Article
