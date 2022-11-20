@@ -4,9 +4,10 @@ from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy, reverse
 from django.views.generic import ListView, CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin
-
+from django.db.models import Count
 from .models import Article, Comment, Note
 from .forms import ArticleForm, NoteForm
+from taggit.models import Tag
 
 
 class NoteListView(ListView, LoginRequiredMixin):
@@ -33,6 +34,18 @@ class FavouriteListView(ListView, LoginRequiredMixin):
         queryset = Article.objects.filter(favourite=user)
         return queryset
 
+class ReadlistListView(ListView, LoginRequiredMixin):
+    model = Article
+    template_name = 'readlist.html'
+    paginate_by = 5
+    login_url = "account_login"
+    context_object_name = 'articles'
+    
+    def get_queryset(self):
+        user = self.request.user
+        queryset = Article.objects.filter(readlist=user)
+        return queryset
+
 
 def article_detail_view(request, slug, author):
     context = {}
@@ -57,6 +70,30 @@ def new_homepage_view(request):
     # context['recent_tags'] = recent_tags
 
     return render(request, 'homepage.html', context)
+
+
+class HomePageListView(ListView):
+    model = Article
+    template_name = 'homepage.html'
+    paginate_by = 5
+    context_object_name = 'articles'
+
+    def get_context_data(self, **kwargs):
+        context = super(HomePageListView, self).get_context_data(**kwargs)
+        context['most_popular_articles'] = Article.objects.annotate(likes=Count('liked')).order_by('-likes')[:5]
+        context['most_popular_tags'] = Tag.objects.all().annotate(num_times=Count('article')).order_by('-num_times')[:5]
+        return context
+    
+    
+
+    '''
+    Most popular tags
+    tags = Tag.objects.all()
+    occurencies = tags.annotate(num_times=Count('article')).order_by('-num_times')[:5]
+    '''
+   
+
+
 
 @login_required
 def my_articles_view(request):
