@@ -8,6 +8,7 @@ from django.db.models import Count
 from .models import Article, Comment, Note
 from .forms import ArticleForm, NoteForm
 from taggit.models import Tag
+from django.contrib.auth.decorators import user_passes_test
 
 
 class NoteListView(LoginRequiredMixin,ListView):
@@ -163,8 +164,10 @@ Implement user_passes text for these function based view.
 Test should check if user is author of that article/note.
 '''
 
+
 @login_required
 def delete_article(request, article_id):
     article = get_object_or_404(Article, pk=article_id)
-    article.delete()
+    if article.author == request.user:
+        article.delete()
     return HttpResponseRedirect(request.META['HTTP_REFERER'])
