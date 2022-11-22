@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import article_detail_view, new_homepage_view, my_articles_view, ArticleCreateView, NoteListView, NoteCreateView
+from .views import delete_article, article_detail_view, new_homepage_view, my_articles_view, ArticleCreateView, NoteListView, NoteCreateView
 from articles.views import FavouriteListView, ReadlistListView, HomePageListView
 
 urlpatterns = [
@@ -12,4 +12,5 @@ urlpatterns = [
     path('my-notes', NoteListView.as_view(), name='my_notes'),
     path('my-favourites', FavouriteListView.as_view() ,name='my_favourites'),
     path('my-readlist', ReadlistListView.as_view(), name='my_readlist'),
+    path('delete/article/<int:article_id>', delete_article, name='delete_article')
 ]

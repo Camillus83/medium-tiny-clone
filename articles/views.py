@@ -2,7 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy, reverse
-from django.views.generic import ListView, CreateView
+from django.views.generic import ListView, CreateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Count
 from .models import Article, Comment, Note
@@ -10,11 +10,11 @@ from .forms import ArticleForm, NoteForm
 from taggit.models import Tag
 
 
-class NoteListView(ListView, LoginRequiredMixin):
+class NoteListView(LoginRequiredMixin,ListView):
+    login_url = "/accounts/login/"
     model = Note
     template_name = 'notelist.html'
     paginate_by = 5
-    login_url = "account_login"
     context_object_name = 'notes'
     
     def get_queryset(self):
@@ -22,23 +22,24 @@ class NoteListView(ListView, LoginRequiredMixin):
         queryset = Note.objects.filter(author=user)
         return queryset
 
-class FavouriteListView(ListView, LoginRequiredMixin):
+class FavouriteListView(LoginRequiredMixin, ListView):
     model = Article
     template_name = 'favourite_list.html'
     paginate_by = 5
-    login_url = "account_login"
+    login_url = "/accounts/login/"
     context_object_name = 'articles'
     
     def get_queryset(self):
         user = self.request.user
-        queryset = Article.objects.filter(favourite=user)
-        return queryset
+        if user.is_authenticated:
+            queryset = Article.objects.filter(favourite=user)
+            return queryset
 
-class ReadlistListView(ListView, LoginRequiredMixin):
+class ReadlistListView(LoginRequiredMixin,ListView):
     model = Article
     template_name = 'readlist.html'
     paginate_by = 5
-    login_url = "account_login"
+    login_url = "/accounts/login/"
     context_object_name = 'articles'
     
     def get_queryset(self):
@@ -84,18 +85,11 @@ class HomePageListView(ListView):
         context['most_popular_tags'] = Tag.objects.all().annotate(num_times=Count('article')).order_by('-num_times')[:5]
         return context
     
-    
-
-    '''
-    Most popular tags
-    tags = Tag.objects.all()
-    occurencies = tags.annotate(num_times=Count('article')).order_by('-num_times')[:5]
-    '''
    
 
 
 
-@login_required
+@login_required(login_url='/accounts/login/')
 def my_articles_view(request):
     context = {}
     articles = Article.objects.filter(author=request.user)
@@ -159,4 +153,18 @@ def add_to_readlist(request, article_id):
         article.readlist.remove(request.user)
     else:
         article.readlist.add(request.user)
+    return HttpResponseRedirect(request.META['HTTP_REFERER'])
+
+
+
+'''
+#TODO
+Implement user_passes text for these function based view.
+Test should check if user is author of that article/note.
+'''
+
+@login_required
+def delete_article(request, article_id):
+    article = get_object_or_404(Article, pk=article_id)
+    article.delete()
     return HttpResponseRedirect(request.META['HTTP_REFERER'])

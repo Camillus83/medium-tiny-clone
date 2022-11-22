@@ -119,7 +119,36 @@
                         {% if user.is_authenticated %}
                         <a href="{% url 'create_article' %}" class="btn btn-primary " role="button">Add new article</a>
 						<a href="{% url 'create_note' %}" class="btn btn-info " role="button">Create note</a>
-						<a href="{% url 'logout' %}" class="btn btn-warning " >Log out</a>
+						
+						<!-- Modal button -->
+						<a href="{% url 'logout' %}" class="btn btn-warning" data-toggle="modal" data-target="#logoutModal" >Log out</a>
+						<!-- Modal -->
+						<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+							aria-hidden="true">
+							<div class="modal-dialog" role="document">
+								<div class="modal-content">
+									<div class="modal-header">
+										<h5 class="modal-title" id="logoutModal">Log Out</h5>
+										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+											<span aria-hidden="true">&times;</span>
+										</button>
+									</div>
+									<div class="modal-body">
+										<p>Are you sure you want to log out?</p>
+									</div>
+									<div class="modal-footer">
+										<form id="logoutform" method="POST" action="{% url 'logout' %}">
+											{% csrf_token %}
+											<input type="hidden">
+											<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+											<button type="button" class="btn btn-danger"
+												onClick="document.getElementById('logoutform').submit()">Log
+												Out</button>
+										</form>
+									</div>
+								</div>
+							</div>
+						</div>
                         {% else %}
                         <a href="{% url 'signup' %}" >Sign up</a>
 						<a href="{% url 'login' %}" class="btn btn-info ">Login</a>
