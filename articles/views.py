@@ -2,7 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy, reverse
-from django.views.generic import ListView, CreateView, DeleteView
+from django.views.generic import ListView, CreateView, DeleteView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Count
 from .models import Article, Comment, Note
@@ -97,11 +97,11 @@ def my_articles_view(request):
     context['articles'] = articles
     return render(request, 'myarticles.html', context)
     
-class ArticleCreateView(CreateView, LoginRequiredMixin):
+class ArticleCreateView(LoginRequiredMixin,CreateView):
     form_class = ArticleForm
     model = Article
     template_name = 'create_article.html'
-    login_url = "account_login"
+    login_url = "/accounts/login/"
 
     def form_valid(self, form):
         self.object = form.save(commit=False)
@@ -112,6 +112,17 @@ class ArticleCreateView(CreateView, LoginRequiredMixin):
 
     def get_success_url(self):
         return reverse('homepage')
+
+class ArticleEditView(LoginRequiredMixin, UpdateView):
+    form_class = ArticleForm
+    model = Article
+    template_name = 'create_article.html'
+    login_url = "/accounts/login/"
+
+    def get_success_url(self):
+        return reverse('homepage')
+
+    
 
 class NoteCreateView(CreateView, LoginRequiredMixin):
     form_class = NoteForm
