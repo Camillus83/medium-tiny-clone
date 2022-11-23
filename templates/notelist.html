@@ -5,6 +5,22 @@
 {% block content %}
 <br>
 <div class="row ml-4 rounded" style="width: 150vh">
+   {% if notes|length == 0 %}
+    <div class="row justify-content-center mt-3" id="article-card-block">
+        <div class="col-11">
+            <div class="card">
+                <div class="card-header text-center">
+                  Featured
+                </div>
+                <div class="card-body">
+                  <h5 class="card-title text-center">Oops no notes found!</h5>
+                  <p class="card-text text-center">Create some note to your notes, so you can read it later!</p>
+                  <a href="{% url 'create_note' %}" class="btn btn-primary">Create new note</a>
+                </div>
+              </div>
+        </div>
+    </div>
+    {% endif %}
    <div class="col-12">
       {% for note in notes %} 
       {{note.title}}
